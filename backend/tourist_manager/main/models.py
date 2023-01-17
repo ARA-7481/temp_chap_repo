@@ -44,5 +44,6 @@ class Vehicle(models.Model):
     vehicle_type = models.CharField(max_length=20, null=True, choices=TYPE)
     passengers = models.ManyToManyField(Tourist)
     description = models.TextField()
-    log = models.ForeignKey(LogDetails, on_delete=models.SET_NULL, null=True, related_name='vehicles', to_field='log_code')
+    log = models.ManyToManyField(LogDetails)
+    #log = models.ForeignKey(LogDetails, on_delete=models.SET_NULL, null=True, related_name='vehicles', to_field='log_code')
 
