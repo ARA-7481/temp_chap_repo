@@ -1,6 +1,6 @@
-from main.models import Vehicle, TouristLog, VehicleLog
+from main.models import Vehicle, Tourist, LogDetails
 from rest_framework import viewsets, permissions
-from .serializers import VehicleSerializer, TouristLogSerializer, VehicleLogSerializer
+from .serializers import VehicleSerializer, TouristSerializer, LogDetailsSerializer
 
 class VehicleViewSet(viewsets.ModelViewSet):
     queryset = Vehicle.objects.all()
@@ -12,22 +12,22 @@ class VehicleViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(added_by=self.request.user)
 
-class TouristLogViewSet(viewsets.ModelViewSet):
-    queryset = TouristLog.objects.all()
+class TouristViewSet(viewsets.ModelViewSet):
+    queryset = Tourist.objects.all()
     permission_classes = [
         permissions.IsAuthenticated
     ]
-    serializer_class = TouristLogSerializer
+    serializer_class = TouristSerializer
 
     def perform_create(self, serializer):
         serializer.save(added_by=self.request.user)
 
-class VehicleLogViewSet(viewsets.ModelViewSet):
-    queryset = VehicleLog.objects.all()
+class LogDetailsViewSet(viewsets.ModelViewSet):
+    queryset = LogDetails.objects.all()
     permission_classes = [
         permissions.IsAuthenticated
     ]
-    serializer_class = VehicleLogSerializer
+    serializer_class = LogDetailsSerializer
 
     def perform_create(self, serializer):
         serializer.save(added_by=self.request.user)

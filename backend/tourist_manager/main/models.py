@@ -1,29 +1,48 @@
 from django.db import models
 from django.contrib.auth.models import User
+import random
+import string
 
-
-class Vehicle(models.Model):
-    plate_number = models.CharField(max_length=20, unique=True)
-    #driver_name = models.CharField(max_length=100) latest driver?
-    private = models.BooleanField(default=False)
-    num_passengers = models.PositiveIntegerField()
-    description = models.TextField()
-    #vehicle_contactnumber = models.CharField(blank=True, max_length=20, null=True)
-    visit_count = models.PositiveIntegerField()
-
-class TouristLog(models.Model):
-    first_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
-    vehicle = models.ForeignKey(Vehicle, on_delete=models.SET_NULL, blank=True, null=True)
-    age = models.PositiveIntegerField()
-    gender = models.CharField(max_length=20)
-    address = models.CharField(max_length=200)
-    contact_number = models.CharField(max_length=20)
-    date_time = models.DateTimeField(auto_now_add=True)
-    added_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-
-class VehicleLog(models.Model):
+def random_code_generator(length=10):
+    return ''.join(random.choices(string.ascii_letters + string.digits, k=length))
+    
+class LogDetails(models.Model):
+    log_code = models.CharField(max_length=10, primary_key=True, unique=True, default=random_code_generator, editable=False)
     date = models.DateField(auto_now_add=True)
     time = models.TimeField(auto_now_add=True)
-    vehicle = models.ForeignKey(Vehicle, on_delete=models.SET_NULL, null=True)
     added_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+
+class Tourist(models.Model):
+    GENDER = (
+        ('male','male'),
+        ('female','female'),
+    )
+    name = models.CharField(max_length=100)
+    age = models.PositiveIntegerField()
+    gender = models.CharField(max_length=20, null=True, choices=GENDER)
+    address = models.CharField(max_length=200)
+    contact_number = models.CharField(max_length=20)
+    log = models.ForeignKey(LogDetails, on_delete=models.SET_NULL, null=True, related_name='tourists', to_field='log_code')
+
+class Vehicle(models.Model):
+    CLASSIFICATION = (
+        ('private','private'),
+        ('public','public'),
+    )
+    TYPE = (
+        ('van','van'),
+        ('bus','bus'),
+        ('motorcycle','motorcycle'),
+        ('pick-up','pick-up'),
+        ('suv','suv'),
+        ('car','car'),
+        ('others','others'),
+    )
+    plate_number = models.CharField(max_length=20, unique=True)
+    drivers = models.ManyToManyField(Tourist, related_name='vehicle_used')
+    vehicle_classification = models.CharField(max_length=20, null=True, choices=CLASSIFICATION)
+    vehicle_type = models.CharField(max_length=20, null=True, choices=TYPE)
+    passengers = models.ManyToManyField(Tourist)
+    description = models.TextField()
+    log = models.ForeignKey(LogDetails, on_delete=models.SET_NULL, null=True, related_name='vehicles', to_field='log_code')
+

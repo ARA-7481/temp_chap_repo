@@ -1,9 +1,9 @@
 from rest_framework import routers
-from .api import VehicleViewSet, TouristLogViewSet, VehicleLogViewSet
+from .api import VehicleViewSet, TouristViewSet, LogDetailsViewSet
 
 router = routers.DefaultRouter()
 router.register('api/vehicle', VehicleViewSet, 'vehicle')
-router.register('api/touristlog', TouristLogViewSet, 'touristlog')
-router.register('api/vehiclelog', VehicleLogViewSet, 'vehiclelog')
+router.register('api/tourist', TouristViewSet, 'tourist')
+router.register('api/logdetails', LogDetailsViewSet, 'logdetails')
 
 urlpatterns = router.urls

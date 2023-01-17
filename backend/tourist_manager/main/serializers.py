@@ -1,17 +1,17 @@
 from rest_framework import serializers
-from main.models import Vehicle, TouristLog, VehicleLog
+from main.models import Vehicle, Tourist, LogDetails
 
 class VehicleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Vehicle
         fields = '__all__'
 
-class TouristLogSerializer(serializers.ModelSerializer):
+class TouristSerializer(serializers.ModelSerializer):
     class Meta:
-        model = TouristLog
+        model = Tourist
         fields = '__all__'
 
-class VehicleLogSerializer(serializers.ModelSerializer):
+class LogDetailsSerializer(serializers.ModelSerializer):
     class Meta:
-        model = VehicleLog
+        model = LogDetails
         fields = '__all__'
