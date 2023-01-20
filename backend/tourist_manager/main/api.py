@@ -1,5 +1,7 @@
 from main.models import Vehicle, Tourist, LogDetails
-from rest_framework import viewsets, permissions
+from rest_framework import viewsets, generics, permissions, status
+from rest_framework.decorators import action
+from rest_framework.response import Response
 from .serializers import VehicleSerializer, TouristSerializer, LogDetailsSerializer
 
 class VehicleViewSet(viewsets.ModelViewSet):
@@ -11,6 +13,7 @@ class VehicleViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(added_by=self.request.user)
+
 
 class TouristViewSet(viewsets.ModelViewSet):
     queryset = Tourist.objects.all()
@@ -31,3 +34,4 @@ class LogDetailsViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(added_by=self.request.user)
+
