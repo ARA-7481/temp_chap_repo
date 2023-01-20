@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from knox.models import AuthToken
 from .models import Profile
 from .serializers import UserSerializer, RegisterSerializer, LoginSerializer, ProfileSerializer
+from django_filters.rest_framework import DjangoFilterBackend
 
 class RegisterAPI(generics.GenericAPIView):
     serializer_class = RegisterSerializer

@@ -8,6 +8,6 @@ from knox import views as knox_views
 router = routers.DefaultRouter()
 router.register('api/vehicle', VehicleViewSet, 'vehicle')
 router.register('api/tourist', TouristViewSet, 'tourist')
-router.register('api/logdetails', LogDetailsViewSet, 'logdetails')
+#router.register('api/logdetails', LogDetailsViewSet, 'logdetails')
 
 urlpatterns = router.urls
