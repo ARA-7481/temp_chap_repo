@@ -1,10 +1,10 @@
-from rest_framework import generics, permissions
+from rest_framework import generics, permissions, viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from knox.models import AuthToken
 from .models import Profile
+from django.contrib.auth.models import User
 from .serializers import UserSerializer, RegisterSerializer, LoginSerializer, ProfileSerializer
-from django_filters.rest_framework import DjangoFilterBackend
 
 class RegisterAPI(generics.GenericAPIView):
     serializer_class = RegisterSerializer
@@ -39,3 +39,10 @@ class UserAPI(generics.RetrieveAPIView):
 
     def get_object(self):
         return self.request.user
+
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    permission_classes = [
+        permissions.IsAdminUser
+    ]
+    serializer_class = UserSerializer
